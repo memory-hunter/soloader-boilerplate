@@ -269,6 +269,7 @@ so_default_dynlib default_dynlib[] = {
         { "ceilf", (uintptr_t)&ceilf },
         { "cos", (uintptr_t)&cos },
         { "cosf", (uintptr_t)&cosf },
+        { "cosh", (uintptr_t)&cosh },
         { "exp", (uintptr_t)&exp },
         { "exp2", (uintptr_t)&exp2 },
         { "exp2f", (uintptr_t)&exp2f },
@@ -315,6 +316,7 @@ so_default_dynlib default_dynlib[] = {
         { "tanh", (uintptr_t)&tanh },
         { "trunc", (uintptr_t)&trunc },
         { "truncf", (uintptr_t)&truncf },
+        { "arc4random", (uintptr_t)&arc4random },
 
 
         // Sockets
@@ -550,7 +552,7 @@ so_default_dynlib default_dynlib[] = {
         { "glColor4x", (uintptr_t)&glColor4x },
         { "glColorMask", (uintptr_t)&glColorMask },
         { "glColorPointer", (uintptr_t)&glColorPointer },
-        { "glCompileShader", (uintptr_t)&glCompileShader_soloader },
+        { "glCompileShader", (uintptr_t)&glCompileShader },
         { "glCompressedTexImage2D", (uintptr_t)&glCompressedTexImage2D },
         { "glCompressedTexSubImage2D", (uintptr_t)&ret0 },
         { "glCopyTexImage2D", (uintptr_t)&glCopyTexImage2D },
@@ -710,7 +712,7 @@ so_default_dynlib default_dynlib[] = {
         { "glScalex", (uintptr_t)&glScalex },
         { "glScissor", (uintptr_t)&glScissor },
         { "glShadeModel", (uintptr_t)&glShadeModel },
-        { "glShaderSource", (uintptr_t)&glShaderSource_soloader },
+        { "glShaderSource", (uintptr_t)&glShaderSource },
         { "glStencilFunc", (uintptr_t)&glStencilFunc },
         { "glStencilFuncSeparate", (uintptr_t)&glStencilFuncSeparate },
         { "glStencilMask", (uintptr_t)&glStencilMask },
