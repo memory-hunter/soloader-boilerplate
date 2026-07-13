@@ -5,3 +5,6 @@
 [submodule "lib/so_util"]
 	path = lib/so_util
 	url = https://github.com/Rinnegatamante/so_util
+[submodule "lib/falso_ndk"]
+	path = lib/falso_ndk
+	url = https://github.com/elliencode/FalsoNDK
