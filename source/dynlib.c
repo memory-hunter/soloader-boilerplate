@@ -290,6 +290,7 @@ so_default_dynlib default_dynlib[] = {
     // Math
     {"acos", (uintptr_t)&acos},
     {"acosf", (uintptr_t)&acosf},
+    {"arc4random", (uintptr_t)&arc4random},
     {"asin", (uintptr_t)&asin},
     {"asinf", (uintptr_t)&asinf},
     {"atan", (uintptr_t)&atan},
@@ -300,6 +301,7 @@ so_default_dynlib default_dynlib[] = {
     {"ceilf", (uintptr_t)&ceilf},
     {"cos", (uintptr_t)&cos},
     {"cosf", (uintptr_t)&cosf},
+    {"cosh", (uintptr_t)&cosh},
     {"exp", (uintptr_t)&exp},
     {"exp2", (uintptr_t)&exp2},
     {"exp2f", (uintptr_t)&exp2f},
@@ -810,6 +812,7 @@ so_default_dynlib default_dynlib[] = {
     {"SL_IID_PREFETCHSTATUS", (uintptr_t)&SL_IID_PREFETCHSTATUS},
     {"SL_IID_SEEK", (uintptr_t)&SL_IID_SEEK},
     {"SL_IID_VOLUME", (uintptr_t)&SL_IID_VOLUME},
+    {"SL_IID_PITCH", (uintptr_t)&SL_IID_PITCH},
     {"slCreateEngine", (uintptr_t)&slCreateEngine},
 
     // Pthread
