@@ -282,6 +282,8 @@ so_default_dynlib default_dynlib[] = {
     {"AMotionEvent_getPointerCount", (uintptr_t)&AMotionEvent_getPointerCount},
     {"AMotionEvent_getX", (uintptr_t)&AMotionEvent_getX},
     {"AMotionEvent_getY", (uintptr_t)&AMotionEvent_getY},
+    {"ANativeActivity_finish", (uintptr_t)&ANativeActivity_finish},
+    {"ANativeActivity_setWindowFlags", (uintptr_t)&ANativeActivity_setWindowFlags},
     {"ANativeWindow_getHeight", (uintptr_t)&ANativeWindow_getHeight},
     {"ANativeWindow_getWidth", (uintptr_t)&ANativeWindow_getWidth},
     {"ANativeWindow_setBuffersGeometry", (uintptr_t)&ANativeWindow_setBuffersGeometry},
