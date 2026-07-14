@@ -65,3 +65,14 @@ void kuser_patch(void)
 		}
 	}
 }
+
+void so_patch(void)
+{
+	kuser_patch();
+	// Sample hook with symbol name
+	// hook_addr((uintptr_t)so_symbol(&so_mod, "_ZN6glitch2os7Printer5printEPKcz"), (uintptr_t)&hookedFunction);
+	// Or with offset
+	// hook_addr((uintptr_t)so_mod.text_base + 0xdeadbabe, (uintptr_t)&hookedFunction);
+	// If you use SO_CONTINUE, define a so_hook before the function and assign to it
+	// function_hook = hook_addr(...);
+}
