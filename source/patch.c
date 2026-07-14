@@ -33,6 +33,11 @@ extern "C"
 #include "reimpl/sys.h"
 #include <stdbool.h>
 
+void __kuser_memory_barrier(void)
+{
+	__sync_synchronize();
+}
+
 void kuser_patch(void)
 {
 	SceKernelAllocMemBlockKernelOpt opt;
@@ -44,7 +49,7 @@ void kuser_patch(void)
 		fatal_error("Error could not allocate atomic block.");
 	kuKernelMemProtect((void *)0x9A000000, (SceSize)0x1000, KU_KERNEL_PROT_EXEC | KU_KERNEL_PROT_READ | KU_KERNEL_PROT_WRITE);
 
-	hook_addr(0x9A000FA0, (uintptr_t)__sync_synchronize);
+	hook_addr(0x9A000FA0, (uintptr_t)__kuser_memory_barrier);
 	hook_addr(0x9A000FC0, (uintptr_t)__atomic_cmpxchg);
 
 	uint32_t patched_addr;
