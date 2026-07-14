@@ -5,6 +5,8 @@
 [submodule "lib/so_util"]
 	path = lib/so_util
 	url = https://github.com/Rinnegatamante/so_util
+	branch = master
 [submodule "lib/falso_ndk"]
 	path = lib/falso_ndk
 	url = https://github.com/elliencode/FalsoNDK
+	branch = master
