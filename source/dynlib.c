@@ -407,7 +407,11 @@ so_default_dynlib default_dynlib[] = {
 
 
         // IO
+#ifndef NDK_PORT
         { "close", (uintptr_t)&close_soloader },
+#else   
+        { "close", (uintptr_t)&fndk_close },
+#endif
         { "closedir", (uintptr_t)&closedir_soloader },
         { "execv", (uintptr_t)&ret0 },
         { "fclose", (uintptr_t)&fclose_soloader },
@@ -493,8 +497,13 @@ so_default_dynlib default_dynlib[] = {
         { "lseek64", (uintptr_t)&ret0 }, // TODO: implement or stub with warning
         { "lstat", (uintptr_t)&lstat },
         { "mkdir", (uintptr_t)&mkdir },
+#ifndef NDK_PORT
         { "pipe", (uintptr_t)&pipe },
         { "read", (uintptr_t)&read },
+#else
+        { "pipe", (uintptr_t)&fndk_pipe },
+        { "read", (uintptr_t)&fndk_read },
+#endif
         { "realpath", (uintptr_t)&realpath },
         { "remove", (uintptr_t)&remove },
         { "rename", (uintptr_t)&rename },
@@ -502,7 +511,11 @@ so_default_dynlib default_dynlib[] = {
         { "rmdir", (uintptr_t)&rmdir },
         { "truncate", (uintptr_t)&truncate },
         { "unlink", (uintptr_t)&unlink },
+#ifndef NDK_PORT
         { "write", (uintptr_t)&write },
+#else
+        { "write", (uintptr_t)&fndk_write },
+#endif
 
 
         // *printf, *scanf
