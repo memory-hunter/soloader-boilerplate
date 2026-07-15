@@ -58,13 +58,13 @@ void kuser_patch(void)
 		uint32_t *a = (uint32_t *)addr;
 		if (*a == 0xFFFF0FC0)
 		{
-			l_info("Patching 0x%x -> __kuser_cmpxchg", a);
+			l_debug("Patching 0x%x -> __kuser_cmpxchg", a);
 			patched_addr = 0x9A000FC0;
 			kuKernelCpuUnrestrictedMemcpy((void *)(addr), &patched_addr, sizeof(uint32_t));
 		}
 		else if (*a == 0xFFFF0FA0)
 		{
-			l_info("Patching 0x%x -> __kuser_memory_barrier", a);
+			l_debug("Patching 0x%x -> __kuser_memory_barrier", a);
 			patched_addr = 0x9A000FA0;
 			kuKernelCpuUnrestrictedMemcpy((void *)(addr), &patched_addr, sizeof(uint32_t));
 		}
