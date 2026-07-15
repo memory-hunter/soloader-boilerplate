@@ -6,6 +6,12 @@
 #include <falso_jni/FalsoJNI.h>
 #include <so_util/so_util.h>
 
+#ifndef NDK_PORT
+#include "reimpl/controls.h"
+#else
+#include <falso_ndk/FalsoNDK.h>
+#endif
+
 int _newlib_heap_size_user = 256 * 1024 * 1024;
 
 #ifdef USE_SCELIBC_IO
@@ -14,8 +20,7 @@ int sceLibcHeapSize = 4 * 1024 * 1024;
 
 so_module so_mod;
 
-#ifndef NDK_PORT
-#include "reimpl/controls.h"
+
 int main()
 {
     soloader_init_all();
@@ -25,6 +30,7 @@ int main()
 
     gl_init();
 
+#ifndef NDK_PORT
     // ... do some initialization
 
     while (1)
@@ -32,36 +38,7 @@ int main()
         // ... render call
         gl_swap();
     }
-
-    sceKernelExitDeleteThread(0);
-}
-
-void controls_handler_key(int32_t keycode, ControlsAction action)
-{
-    // Call into the .so here
-}
-
-void controls_handler_touch(int32_t id, float x, float y, ControlsAction action)
-{
-    // Call into the .so here
-}
-
-void controls_handler_analog(ControlsStickId which, float x, float y, ControlsAction action)
-{
-    // Call into the .so here
-}
 #else
-#include <falso_ndk/FalsoNDK.h>
-int main()
-{
-    soloader_init_all();
-
-    // Load and call JNI_OnLoad so the game initialises its Java-side state
-    int (*JNI_OnLoad)(void *jvm) = (void *)so_symbol(&so_mod, "JNI_OnLoad");
-    JNI_OnLoad(&jvm);
-
-    gl_init();
-
     // Build a fake ANativeActivity that the game's onCreate will receive
     ANativeActivity *activity = malloc(sizeof(ANativeActivity));
     activity->callbacks = malloc(sizeof(ANativeActivityCallbacks));
@@ -89,7 +66,24 @@ int main()
     activity->callbacks->onNativeWindowCreated(activity, aNativeWindow);
 
     activity->callbacks->onWindowFocusChanged(activity, 1);
+#endif
 
     sceKernelExitDeleteThread(0);
+}
+
+#ifndef NDK_PORT
+void controls_handler_key(int32_t keycode, ControlsAction action)
+{
+    // Call into the .so here
+}
+
+void controls_handler_touch(int32_t id, float x, float y, ControlsAction action)
+{
+    // Call into the .so here
+}
+
+void controls_handler_analog(ControlsStickId which, float x, float y, ControlsAction action)
+{
+    // Call into the .so here
 }
 #endif
