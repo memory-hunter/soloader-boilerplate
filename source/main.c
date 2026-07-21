@@ -21,8 +21,7 @@ int sceLibcHeapSize = 4 * 1024 * 1024;
 so_module so_mod;
 
 
-int main()
-{
+int main() {
     soloader_init_all();
 
     int (*JNI_OnLoad)(void *jvm) = (void *)so_symbol(&so_mod, "JNI_OnLoad");
@@ -33,8 +32,7 @@ int main()
 #ifndef NDK_PORT
     // ... do some initialization
 
-    while (1)
-    {
+    while (1) {
         // ... render call
         gl_swap();
     }
@@ -72,18 +70,15 @@ int main()
 }
 
 #ifndef NDK_PORT
-void controls_handler_key(int32_t keycode, ControlsAction action)
-{
+void controls_handler_key(int32_t keycode, ControlsAction action) {
     // Call into the .so here
 }
 
-void controls_handler_touch(int32_t id, float x, float y, ControlsAction action)
-{
+void controls_handler_touch(int32_t id, float x, float y, ControlsAction action) {
     // Call into the .so here
 }
 
-void controls_handler_analog(ControlsStickId which, float x, float y, ControlsAction action)
-{
+void controls_handler_analog(ControlsStickId which, float x, float y, ControlsAction action) {
     // Call into the .so here
 }
 #endif

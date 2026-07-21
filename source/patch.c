@@ -33,13 +33,11 @@ extern "C"
 #include "reimpl/sys.h"
 #include <stdbool.h>
 
-void __kuser_memory_barrier(void)
-{
+void __kuser_memory_barrier(void) {
 	__sync_synchronize();
 }
 
-void kuser_patch(void)
-{
+void kuser_patch(void) {
 	SceKernelAllocMemBlockKernelOpt opt;
 	memset(&opt, 0, sizeof(SceKernelAllocMemBlockKernelOpt));
 	opt.size = sizeof(SceKernelAllocMemBlockKernelOpt);
@@ -53,17 +51,14 @@ void kuser_patch(void)
 	hook_addr(0x9A000FC0, (uintptr_t)__atomic_cmpxchg);
 
 	uint32_t patched_addr;
-	for (uint32_t addr = so_mod.text_base; addr < so_mod.text_base + so_mod.text_size; addr += 4)
-	{
+	for (uint32_t addr = so_mod.text_base; addr < so_mod.text_base + so_mod.text_size; addr += 4) {
 		uint32_t *a = (uint32_t *)addr;
-		if (*a == 0xFFFF0FC0)
-		{
+		if (*a == 0xFFFF0FC0) {
 			l_debug("Patching 0x%x -> __kuser_cmpxchg", a);
 			patched_addr = 0x9A000FC0;
 			kuKernelCpuUnrestrictedMemcpy((void *)(addr), &patched_addr, sizeof(uint32_t));
 		}
-		else if (*a == 0xFFFF0FA0)
-		{
+		else if (*a == 0xFFFF0FA0) {
 			l_debug("Patching 0x%x -> __kuser_memory_barrier", a);
 			patched_addr = 0x9A000FA0;
 			kuKernelCpuUnrestrictedMemcpy((void *)(addr), &patched_addr, sizeof(uint32_t));
@@ -71,8 +66,7 @@ void kuser_patch(void)
 	}
 }
 
-void so_patch(void)
-{
+void so_patch(void) {
 	kuser_patch();
 	// Sample hook with symbol name
 	// hook_addr((uintptr_t)so_symbol(&so_mod, "_ZN6glitch2os7Printer5printEPKcz"), (uintptr_t)&hookedFunction);
