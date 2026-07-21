@@ -101,7 +101,6 @@ set(SOURCES
     source/reimpl/pthr.c
     source/reimpl/sys.c
     source/reimpl/time64.c
-    source/reimpl/asset_manager.cpp
     source/utils/dialog.c
     source/utils/glutil.c
     source/utils/init.c
@@ -118,6 +117,7 @@ set(SOURCES
 
 if(NOT NDK_PORT)
 list(APPEND SOURCES
+  source/reimpl/asset_manager.cpp
   source/reimpl/controls.c
   source/reimpl/controls.h)
 endif()
