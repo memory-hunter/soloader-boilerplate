@@ -35,8 +35,11 @@ int main() {
 
 #ifndef NDK_PORT
     // ... do some initialization
+    // controls_init();
 
     while (1) {
+        // ... poll inputs
+        // controls_poll();
         // ... render call
         gl_swap();
     }
