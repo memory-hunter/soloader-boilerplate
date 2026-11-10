@@ -181,3 +181,7 @@ int fsync_soloader(int fd) {
     l_debug("fsync(%i): %i", fd, ret);
     return ret;
 }
+
+off_t lseek64_soloader(int fd, off_t offset, int whence) {
+    return lseek(fd, offset, whence);
+}
