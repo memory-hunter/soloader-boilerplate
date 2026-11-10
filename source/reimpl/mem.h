@@ -21,7 +21,7 @@ extern "C" {
 
 #include <sys/types.h>
 
-#define MAP_FAILED (void*)-1
+#define MAP_FAILED (void *)-1
 
 void *sceClibMemclr(void *dst, size_t len);
 

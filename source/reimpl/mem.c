@@ -24,12 +24,13 @@ void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offs) {
     if (length <= 0) {
         return MAP_FAILED;
     }
-    void* ret= malloc(length);
+    void *ret = malloc(length);
     memset(ret, 0, length);
     return ret;
 }
 
 int munmap(void *addr, size_t length) {
-    if (addr) free(addr);
+    if (addr)
+        free(addr);
     return 0;
 }

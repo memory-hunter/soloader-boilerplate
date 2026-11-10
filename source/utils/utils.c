@@ -32,31 +32,35 @@ uint64_t current_timestamp_ms() {
     return (te.tv_sec * 1000LL + te.tv_usec / 1000);
 }
 
-bool file_copy(const char * path, const char * destination) {
+bool file_copy(const char *path, const char *destination) {
     if (!file_exists(path)) {
         l_error("file_copy: Specified source path \"%s\" "
-                "does not exist.", path);
+                "does not exist.",
+                path);
         return false;
     }
 
     if (!file_mkpath(destination, 0755)) {
         l_error("file_copy: Could not create parent directories for the "
-                "specified destination path \"%s\".", destination);
+                "specified destination path \"%s\".",
+                destination);
         return false;
     }
 
-    uint8_t * buffer;
-    size_t    size;
+    uint8_t *buffer;
+    size_t size;
 
     if (!file_load(path, &buffer, &size)) {
         l_error("file_copy: Failed to read data from "
-                "the source path \"%s\".", path);
+                "the source path \"%s\".",
+                path);
         return false;
     }
 
     if (!file_save(destination, buffer, size)) {
         l_error("file_copy: Failed to write data to the specified "
-                "destination path \"%s\".", destination);
+                "destination path \"%s\".",
+                destination);
         return false;
     }
 
@@ -64,12 +68,12 @@ bool file_copy(const char * path, const char * destination) {
     return true;
 }
 
-bool file_exists(const char * path) {
+bool file_exists(const char *path) {
     SceIoStat stat;
     return sceIoGetstat(path, &stat) >= 0;
 }
 
-bool file_load(const char * path, uint8_t ** buffer, size_t * size) {
+bool file_load(const char *path, uint8_t **buffer, size_t *size) {
     if (!buffer || !size) {
         l_error("file_load: Invalid argument(s).");
         return false;
@@ -77,19 +81,21 @@ bool file_load(const char * path, uint8_t ** buffer, size_t * size) {
 
     if (!file_exists(path)) {
         l_error("file_load: Specified source path \"%s\" "
-                "does not exist.", path);
+                "does not exist.",
+                path);
         return false;
     }
 
 #ifdef USE_SCELIBC_IO
-    FILE * f = sceLibcBridge_fopen(path, "rb");
+    FILE *f = sceLibcBridge_fopen(path, "rb");
 #else
-    FILE * f = fopen(path, "rb");
+    FILE *f = fopen(path, "rb");
 #endif
 
     if (!f) {
         l_error("file_load: Could not open the specified "
-                "source path \"%s\".", path);
+                "source path \"%s\".",
+                path);
         return false;
     }
 
@@ -105,11 +111,11 @@ bool file_load(const char * path, uint8_t ** buffer, size_t * size) {
 
     if (*size <= 0) {
         l_error("file_load: The specified source file \"%s\" is empty.", path);
-    #ifdef USE_SCELIBC_IO
+#ifdef USE_SCELIBC_IO
         sceLibcBridge_fclose(f);
-    #else
+#else
         fclose(f);
-    #endif
+#endif
         return false;
     }
 
@@ -117,12 +123,13 @@ bool file_load(const char * path, uint8_t ** buffer, size_t * size) {
 
     if (!*buffer) {
         l_error("file_load: Unable to allocate %d bytes of memory to load "
-                "the specified source file \"%s\".", path);
-    #ifdef USE_SCELIBC_IO
+                "the specified source file \"%s\".",
+                path);
+#ifdef USE_SCELIBC_IO
         sceLibcBridge_fclose(f);
-    #else
+#else
         fclose(f);
-    #endif
+#endif
         return false;
     }
 
@@ -137,19 +144,20 @@ bool file_load(const char * path, uint8_t ** buffer, size_t * size) {
     return true;
 }
 
-bool file_mkpath(const char * path, mode_t mode) {
+bool file_mkpath(const char *path, mode_t mode) {
     if (!path || !*path) {
         l_error("file_mkpath: Invalid argument.");
         return false;
     }
 
-    char * file_path = strdup(path);
-    for (char* p = strchr(file_path + 1, '/'); p; p = strchr(p + 1, '/')) {
+    char *file_path = strdup(path);
+    for (char *p = strchr(file_path + 1, '/'); p; p = strchr(p + 1, '/')) {
         *p = '\0';
         if (mkdir(file_path, mode) == -1) {
             if (errno != EEXIST) {
                 l_error("file_mkpath: Unable to create a directory \"%s\", "
-                        "mkdir error code is %s.", file_path, strerror(errno));
+                        "mkdir error code is %s.",
+                        file_path, strerror(errno));
                 free(file_path);
                 return false;
             }
@@ -161,16 +169,17 @@ bool file_mkpath(const char * path, mode_t mode) {
     return true;
 }
 
-bool file_save(const char * path, const uint8_t * buffer, size_t size) {
+bool file_save(const char *path, const uint8_t *buffer, size_t size) {
 #ifdef USE_SCELIBC_IO
-    FILE * f = sceLibcBridge_fopen(path, "wb");
+    FILE *f = sceLibcBridge_fopen(path, "wb");
 #else
-    FILE * f = fopen(path, "wb");
+    FILE *f = fopen(path, "wb");
 #endif
 
     if (!f) {
         l_error("file_save: Could not open the specified "
-                "target path \"%s\".", path);
+                "target path \"%s\".",
+                path);
         return false;
     }
 
@@ -185,24 +194,26 @@ bool file_save(const char * path, const uint8_t * buffer, size_t size) {
     return true;
 }
 
-size_t file_size(const char * path) {
+size_t file_size(const char *path) {
     size_t ret = -1;
 
     if (!file_exists(path)) {
         l_error("size_t: Specified source path \"%s\" "
-                "does not exist.", path);
+                "does not exist.",
+                path);
         return ret;
     }
 
 #ifdef USE_SCELIBC_IO
-    FILE * f = sceLibcBridge_fopen(path, "rb");
+    FILE *f = sceLibcBridge_fopen(path, "rb");
 #else
-    FILE * f = fopen(path, "rb");
+    FILE *f = fopen(path, "rb");
 #endif
 
     if (!f) {
         l_error("size_t: Could not open the specified "
-                "source path \"%s\".", path);
+                "source path \"%s\".",
+                path);
         return ret;
     }
 
@@ -221,24 +232,25 @@ size_t file_size(const char * path) {
     return ret;
 }
 
-char * file_sha1sum(const char * path) {
-    uint8_t * buffer;
-    size_t    size;
+char *file_sha1sum(const char *path) {
+    uint8_t *buffer;
+    size_t size;
 
     if (!file_load(path, &buffer, &size)) {
         l_error("file_sha1sum: Failed to read data from "
-                "the source path \"%s\".", path);
+                "the source path \"%s\".",
+                path);
         return NULL;
     }
 
-    char * ret = str_sha1sum((const char *) buffer, size);
+    char *ret = str_sha1sum((const char *)buffer, size);
 
     free(buffer);
     return ret;
 }
 
-bool is_dir(const char * path) {
-    DIR* d = opendir(path);
+bool is_dir(const char *path) {
+    DIR *d = opendir(path);
 
     if (d != NULL) {
         closedir(d);
@@ -250,7 +262,7 @@ bool is_dir(const char * path) {
 
 SceUID _vshKernelSearchModuleByName(const char *, int *);
 
-bool module_loaded(const char * name) {
+bool module_loaded(const char *name) {
     int search_unk[2];
     return _vshKernelSearchModuleByName(name, search_unk) >= 0;
 }
@@ -267,7 +279,7 @@ int retminus1(void) {
     return -1;
 }
 
-void str_replace(char ** str, const char * needle, const char * replacement) {
+void str_replace(char **str, const char *needle, const char *replacement) {
     if (!str)
         return;
 
@@ -295,8 +307,8 @@ void str_replace(char ** str, const char * needle, const char * replacement) {
 
     size_t final_len = target_len + (repl_len * count) - (needle_len * count);
 
-    char * buffer = malloc(final_len + 1);
-    char * insert_point = &buffer[0];
+    char *buffer = malloc(final_len + 1);
+    char *insert_point = &buffer[0];
     const char *tmp = *str;
 
     while (1) {
@@ -326,7 +338,7 @@ void str_replace(char ** str, const char * needle, const char * replacement) {
     (*str)[final_len] = '\0';
 }
 
-void str_remove(char * str, const char * needle) {
+void str_remove(char *str, const char *needle) {
     char *p, *q, *r;
 
     if (*needle && (q = r = strstr(str, needle)) != NULL) {
@@ -340,7 +352,7 @@ void str_remove(char * str, const char * needle) {
     }
 }
 
-bool str_starts_with(const char * str, const char * prefix) {
+bool str_starts_with(const char *str, const char *prefix) {
     char cp;
     char cs;
 
@@ -358,15 +370,14 @@ bool str_starts_with(const char * str, const char * prefix) {
     return true;
 }
 
-bool str_ends_with(const char * str, const char * suffix) {
+bool str_ends_with(const char *str, const char *suffix) {
     int str_len = (int)strlen(str);
     int suffix_len = (int)strlen(suffix);
 
-    return (str_len >= suffix_len) &&
-           (0 == strcmp(str + (str_len-suffix_len), suffix));
+    return (str_len >= suffix_len) && (0 == strcmp(str + (str_len - suffix_len), suffix));
 }
 
-char * str_sha1sum(const char * str, size_t size) {
+char *str_sha1sum(const char *str, size_t size) {
     if (size == 0) {
         size = strlen(str);
     }

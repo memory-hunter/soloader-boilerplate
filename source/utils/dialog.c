@@ -26,10 +26,10 @@ void _utf16_to_utf8(const uint16_t *src, uint8_t *dst) {
     for (int i = 0; src[i]; i++) {
         if ((src[i] & 0xFF80) == 0) {
             *(dst++) = src[i] & 0xFF;
-        } else if((src[i] & 0xF800) == 0) {
+        } else if ((src[i] & 0xF800) == 0) {
             *(dst++) = ((src[i] >> 6) & 0xFF) | 0xC0;
             *(dst++) = (src[i] & 0x3F) | 0x80;
-        } else if((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
+        } else if ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
             *(dst++) = (((src[i] + 64) >> 8) & 0x3) | 0xF0;
             *(dst++) = (((src[i] >> 2) + 16) & 0x3F) | 0x80;
             *(dst++) = ((src[i] >> 4) & 0x30) | 0x80 | ((src[i + 1] << 2) & 0xF);
@@ -48,7 +48,7 @@ void _utf16_to_utf8(const uint16_t *src, uint8_t *dst) {
 void _utf8_to_utf16(const uint8_t *src, uint16_t *dst) {
     for (int i = 0; src[i];) {
         if ((src[i] & 0xE0) == 0xE0) {
-            *(dst++) = ((src[i]&0x0F) <<12) | ((src[i+1]&0x3F) <<6) | (src[i+2]&0x3F);
+            *(dst++) = ((src[i] & 0x0F) << 12) | ((src[i + 1] & 0x3F) << 6) | (src[i + 2] & 0x3F);
             i += 3;
         } else if ((src[i] & 0xC0) == 0xC0) {
             *(dst++) = ((src[i] & 0x1F) << 6) | (src[i + 1] & 0x3F);
@@ -141,5 +141,6 @@ void fatal_error(const char *fmt, ...) {
     sceKernelExitProcess(0);
 
     sceKernelExitProcess(0);
-    while (1);
+    while (1)
+        ;
 }

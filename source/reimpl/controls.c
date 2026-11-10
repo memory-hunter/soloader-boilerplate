@@ -13,11 +13,10 @@
 #include <psp2/touch.h>
 #include <psp2/kernel/clib.h>
 
-#define LEFT_ANALOG_DEADZONE  0.16f
+#define LEFT_ANALOG_DEADZONE 0.16f
 #define RIGHT_ANALOG_DEADZONE 0.16f
 
-
-void coord_normalize(float * x, float * y, float deadzone) {
+void coord_normalize(float *x, float *y, float deadzone) {
     float magnitude = sqrtf((*x * *x) + (*y * *y));
     if (magnitude < deadzone) {
         *x = 0;
@@ -47,12 +46,12 @@ void poll_touch();
 void poll_pad();
 void poll_accel();
 
-void poll_stick(ControlsStickId which, float raw_x, float raw_y, float * readings_x, float * readings_y, float deadzone);
+void poll_stick(ControlsStickId which, float raw_x, float raw_y, float *readings_x, float *readings_y, float deadzone);
 
 void controls_poll() {
     poll_touch();
     poll_pad();
-    //poll_accel();
+    // poll_accel();
 }
 
 SceTouchData touch;
@@ -62,8 +61,8 @@ void poll_touch() {
     sceTouchPeek(SCE_TOUCH_PORT_FRONT, &touch, 1);
 
     for (int i = 0; i < touch.reportNum; i++) {
-        float x = (float) touch.report[i].x * 960.f / 1920.0f;
-        float y = (float) touch.report[i].y * 544.f / 1088.0f;
+        float x = (float)touch.report[i].x * 960.f / 1920.0f;
+        float y = (float)touch.report[i].y * 544.f / 1088.0f;
 
         // Check if the finger was down before to distinguish between the Move and Down events
         int finger_down = 0;
@@ -88,15 +87,15 @@ void poll_touch() {
         int finger_up = 1;
 
         for (int j = 0; j < touch.reportNum; j++) {
-            if (touch.report[j].id == touch_old.report[i].id ) {
+            if (touch.report[j].id == touch_old.report[i].id) {
                 finger_up = 0;
                 break;
             }
         }
 
         if (finger_up == 1) {
-            float x = (float) touch_old.report[i].x * 960.f / 1920.0f;
-            float y = (float) touch_old.report[i].y * 544.f / 1088.0f;
+            float x = (float)touch_old.report[i].x * 960.f / 1920.0f;
+            float y = (float)touch_old.report[i].y * 544.f / 1088.0f;
 
             controls_handler_touch(touch_old.report[i].id, x, y, CONTROLS_ACTION_UP);
         }
@@ -106,18 +105,12 @@ void poll_touch() {
 }
 
 static ButtonMapping mapping[] = {
-        { SCE_CTRL_UP,        AKEYCODE_DPAD_UP },
-        { SCE_CTRL_DOWN,      AKEYCODE_DPAD_DOWN },
-        { SCE_CTRL_LEFT,      AKEYCODE_DPAD_LEFT },
-        { SCE_CTRL_RIGHT,     AKEYCODE_DPAD_RIGHT },
-        { SCE_CTRL_CROSS,     AKEYCODE_BUTTON_A },
-        { SCE_CTRL_CIRCLE,    AKEYCODE_BUTTON_B },
-        { SCE_CTRL_SQUARE,    AKEYCODE_BUTTON_X },
-        { SCE_CTRL_TRIANGLE,  AKEYCODE_BUTTON_Y },
-        { SCE_CTRL_L1,        AKEYCODE_BUTTON_L1 },
-        { SCE_CTRL_R1,        AKEYCODE_BUTTON_R1 },
-        { SCE_CTRL_START,     AKEYCODE_BUTTON_START },
-        { SCE_CTRL_SELECT,    AKEYCODE_BUTTON_SELECT },
+    { SCE_CTRL_UP, AKEYCODE_DPAD_UP },         { SCE_CTRL_DOWN, AKEYCODE_DPAD_DOWN },
+    { SCE_CTRL_LEFT, AKEYCODE_DPAD_LEFT },     { SCE_CTRL_RIGHT, AKEYCODE_DPAD_RIGHT },
+    { SCE_CTRL_CROSS, AKEYCODE_BUTTON_A },     { SCE_CTRL_CIRCLE, AKEYCODE_BUTTON_B },
+    { SCE_CTRL_SQUARE, AKEYCODE_BUTTON_X },    { SCE_CTRL_TRIANGLE, AKEYCODE_BUTTON_Y },
+    { SCE_CTRL_L1, AKEYCODE_BUTTON_L1 },       { SCE_CTRL_R1, AKEYCODE_BUTTON_R1 },
+    { SCE_CTRL_START, AKEYCODE_BUTTON_START }, { SCE_CTRL_SELECT, AKEYCODE_BUTTON_SELECT },
 };
 
 uint32_t old_buttons = 0, current_buttons = 0, pressed_buttons = 0, released_buttons = 0;
@@ -151,26 +144,20 @@ void poll_pad() {
     poll_stick(CONTROLS_STICK_RIGHT, (float)pad.rx, (float)pad.ry, analog_rx, analog_ry, RIGHT_ANALOG_DEADZONE);
 }
 
-void poll_stick(ControlsStickId which, float raw_x, float raw_y, float * readings_x, float * readings_y, float deadzone) {
+void poll_stick(ControlsStickId which, float raw_x, float raw_y, float *readings_x, float *readings_y, float deadzone) {
     readings_x[0] = (raw_x - 128.0f) / 128.0f;
     readings_y[0] = (raw_y - 128.0f) / 128.0f;
 
     coord_normalize(&readings_x[0], &readings_y[0], deadzone);
 
     // Last two readings are 0, the one before that isn't ==> MOTION_ACTION_UP
-    if (
-        (readings_x[0] == 0.f && readings_y[0] == 0.f) &&
-        (readings_x[1] == 0.f && readings_y[1] == 0.f) &&
-        (readings_x[2] != 0.f || readings_y[2] != 0.f)
-    ) {
+    if ((readings_x[0] == 0.f && readings_y[0] == 0.f) && (readings_x[1] == 0.f && readings_y[1] == 0.f) &&
+        (readings_x[2] != 0.f || readings_y[2] != 0.f)) {
         controls_handler_analog(which, readings_x[0], readings_y[0], CONTROLS_ACTION_UP);
     }
     // Current reading isn't 0, the two before are ==> MOTION_ACTION_DOWN
-    else if (
-        (readings_x[0] != 0.f || readings_y[0] != 0.f) &&
-        (readings_x[1] == 0.f && readings_y[1] == 0.f) &&
-        (readings_x[2] == 0.f && readings_y[2] == 0.f)
-    ) {
+    else if ((readings_x[0] != 0.f || readings_y[0] != 0.f) && (readings_x[1] == 0.f && readings_y[1] == 0.f) &&
+             (readings_x[2] == 0.f && readings_y[2] == 0.f)) {
         controls_handler_analog(which, readings_x[0], readings_y[0], CONTROLS_ACTION_DOWN);
     }
     // Other cases ==> MOTION_ACTION_MOVE

@@ -57,8 +57,7 @@ int __android_log_write(int prio, const char *tag, const char *text);
  * The details of formatting are the same as for
  * [printf(3)](http://man7.org/linux/man-pages/man3/printf.3.html).
  */
-int __android_log_print(int prio, const char *tag, const char *fmt, ...)
-    __attribute__((__format__(printf, 3, 4)));
+int __android_log_print(int prio, const char *tag, const char *fmt, ...) __attribute__((__format__(printf, 3, 4)));
 
 /**
  * Equivalent to `__android_log_print`, but taking a `va_list`.
@@ -83,8 +82,8 @@ int __android_log_vprint(int prio, const char *tag, const char *fmt, va_list ap)
  * including the source filename and line number more conveniently than this
  * function.
  */
-void __android_log_assert(const char* cond, const char* tag, const char* fmt, ...)
-__attribute__((__noreturn__)) __attribute__((__format__(printf, 3, 4)));
+void __android_log_assert(const char *cond, const char *tag, const char *fmt, ...) __attribute__((__noreturn__))
+__attribute__((__format__(printf, 3, 4)));
 
 #ifdef __cplusplus
 };

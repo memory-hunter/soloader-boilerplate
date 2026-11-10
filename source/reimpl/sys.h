@@ -25,9 +25,9 @@ extern "C" {
 
 clock_t clock_soloader(void);
 
-int clock_gettime_soloader(clockid_t clock_id, struct timespec * tp);
+int clock_gettime_soloader(clockid_t clock_id, struct timespec *tp);
 
-int clock_getres_soloader(clockid_t clock_id, struct timespec * res);
+int clock_getres_soloader(clockid_t clock_id, struct timespec *res);
 
 int __system_property_get_soloader(const char *name, char *value);
 
@@ -47,11 +47,11 @@ int __atomic_inc(volatile int *ptr);
 
 int __atomic_swap(int new_value, volatile int *ptr);
 
-int __atomic_cmpxchg(int old_value, int new_value, volatile int* ptr);
+int __atomic_cmpxchg(int old_value, int new_value, volatile int *ptr);
 
-char * getenv_soloader(const char * name);
+char *getenv_soloader(const char *name);
 
-int setenv_soloader(const char * name, const char * value, int overwrite);
+int setenv_soloader(const char *name, const char *value, int overwrite);
 
 int getpagesize(void);
 

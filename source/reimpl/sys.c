@@ -21,23 +21,23 @@
 #include "utils/utils.h"
 #include "utils/logger.h"
 
-#define BIONIC_CLOCK_REALTIME           0
-#define BIONIC_CLOCK_MONOTONIC          1
+#define BIONIC_CLOCK_REALTIME 0
+#define BIONIC_CLOCK_MONOTONIC 1
 #define BIONIC_CLOCK_PROCESS_CPUTIME_ID 2
-#define BIONIC_CLOCK_THREAD_CPUTIME_ID  3
-#define BIONIC_CLOCK_MONOTONIC_RAW      4
-#define BIONIC_CLOCK_REALTIME_COARSE    5
-#define BIONIC_CLOCK_MONOTONIC_COARSE   6
-#define BIONIC_CLOCK_BOOTTIME           7
-#define BIONIC_CLOCK_REALTIME_ALARM     8
-#define BIONIC_CLOCK_BOOTTIME_ALARM     9
-#define BIONIC_CLOCK_SGI_CYCLE         10
-#define BIONIC_CLOCK_TAI               11
+#define BIONIC_CLOCK_THREAD_CPUTIME_ID 3
+#define BIONIC_CLOCK_MONOTONIC_RAW 4
+#define BIONIC_CLOCK_REALTIME_COARSE 5
+#define BIONIC_CLOCK_MONOTONIC_COARSE 6
+#define BIONIC_CLOCK_BOOTTIME 7
+#define BIONIC_CLOCK_REALTIME_ALARM 8
+#define BIONIC_CLOCK_BOOTTIME_ALARM 9
+#define BIONIC_CLOCK_SGI_CYCLE 10
+#define BIONIC_CLOCK_TAI 11
 
 // 1969 years in microseconds, used to adjust SCE tick to UNIX timestamp
 #define __epoch 62135587294000000
 
-int clock_gettime_soloader(clockid_t clock_id, struct timespec * tp) {
+int clock_gettime_soloader(clockid_t clock_id, struct timespec *tp) {
     switch (clock_id) {
         case BIONIC_CLOCK_MONOTONIC:
         case BIONIC_CLOCK_MONOTONIC_RAW:
@@ -72,7 +72,7 @@ int clock_gettime_soloader(clockid_t clock_id, struct timespec * tp) {
     return 0;
 }
 
-int clock_getres_soloader(clockid_t clock_id, struct timespec * res) {
+int clock_getres_soloader(clockid_t clock_id, struct timespec *res) {
     res->tv_sec = 0;
     res->tv_nsec = 1000;
     return 0;
@@ -82,7 +82,7 @@ clock_t clock_soloader(void) {
     return sceKernelGetProcessTimeLow();
 }
 
-int sigaction(int signum, const struct sigaction * act, struct sigaction * oldact) {
+int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact) {
     l_warn("sigaction(%i, ...): not implemented", signum);
     return 0;
 }
@@ -93,7 +93,7 @@ int __system_property_get_soloader(const char *name, char *value) {
     return 7;
 }
 
-void assert2(const char* f, int l, const char* func, const char* msg) {
+void assert2(const char *f, int l, const char *func, const char *msg) {
     l_fatal("[%s:%i][%s] Assertion failed: %s", f, l, func, msg);
 }
 
@@ -131,17 +131,17 @@ int __atomic_swap(int new_value, volatile int *ptr) {
     return old_value;
 }
 
-int __atomic_cmpxchg(int old_value, int new_value, volatile int* ptr) {
+int __atomic_cmpxchg(int old_value, int new_value, volatile int *ptr) {
     /* We must return 0 on success */
     return __sync_val_compare_and_swap(ptr, old_value, new_value) != old_value;
 }
 
-char * getenv_soloader(const char * var) {
+char *getenv_soloader(const char *var) {
     l_warn("getenv(\"%s\"): not implemented.", var);
     return NULL;
 }
 
-int setenv_soloader(const char * name, const char * value, int overwrite) {
+int setenv_soloader(const char *name, const char *value, int overwrite) {
     l_warn("setenv(\"%s\", \"%s\"): not implemented.", name, value);
     return 0;
 }

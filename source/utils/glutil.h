@@ -29,8 +29,7 @@ void gl_swap();
 
 void glCompileShader_soloader(GLuint shader);
 
-void glShaderSource_soloader(GLuint shader, GLsizei count,
-                             const GLchar **string, const GLint *_length);
+void glShaderSource_soloader(GLuint shader, GLsizei count, const GLchar **string, const GLint *_length);
 
 #ifdef __cplusplus
 };

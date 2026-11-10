@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 
-#define LEFT_ANALOG_DEADZONE  0.16f
+#define LEFT_ANALOG_DEADZONE 0.16f
 #define RIGHT_ANALOG_DEADZONE 0.16f
 
 typedef enum ControlsAction {
@@ -24,10 +24,7 @@ typedef enum ControlsAction {
     CONTROLS_ACTION_MOVE = 2
 } ControlsAction;
 
-typedef enum ControlsStickId {
-    CONTROLS_STICK_LEFT = 0,
-    CONTROLS_STICK_RIGHT = 1
-} ControlsStickId;
+typedef enum ControlsStickId { CONTROLS_STICK_LEFT = 0, CONTROLS_STICK_RIGHT = 1 } ControlsStickId;
 
 extern void controls_handler_key(int32_t keycode, ControlsAction action);
 extern void controls_handler_touch(int32_t id, float x, float y, ControlsAction action);

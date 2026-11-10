@@ -34,7 +34,7 @@
 extern so_module so_mod;
 
 void soloader_init_all() {
-	// Launch `app0:configurator.bin` on `-config` init param
+    // Launch `app0:configurator.bin` on `-config` init param
     sceAppUtilInit(&(SceAppUtilInitParam){}, &(SceAppUtilBootParam){});
     SceAppUtilAppEventParam eventParam;
     sceClibMemset(&eventParam, 0, sizeof(SceAppUtilAppEventParam));
@@ -66,7 +66,8 @@ void soloader_init_all() {
     if (!file_exists(SO_PATH)) {
         fatal_error("Looks like you haven't installed the data files for this "
                     "port, or they are in an incorrect location. Please make "
-                    "sure that you have %s file exactly at that path.", SO_PATH);
+                    "sure that you have %s file exactly at that path.",
+                    SO_PATH);
     }
 
     if (so_file_load(&so_mod, SO_PATH, LOAD_ADDRESS) < 0) {

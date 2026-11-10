@@ -10,13 +10,13 @@
 #include <string.h>
 #include "settings.h"
 
-#define CONFIG_FILE_PATH DATA_PATH"config.txt"
+#define CONFIG_FILE_PATH DATA_PATH "config.txt"
 
-int  setting_sampleSetting;
+int setting_sampleSetting;
 bool setting_sampleSetting2;
 
 void settings_reset() {
-    setting_sampleSetting  = 1;
+    setting_sampleSetting = 1;
     setting_sampleSetting2 = true;
 }
 
@@ -30,8 +30,10 @@ void settings_load() {
 
     if (config) {
         while (EOF != fscanf(config, "%[^ ] %d\n", buffer, &value)) {
-            if 		(strcmp("setting_sampleSetting", buffer) == 0) 	setting_sampleSetting  = (int)value;
-            else if (strcmp("setting_sampleSetting2", buffer) == 0) setting_sampleSetting2 = (bool)value;
+            if (strcmp("setting_sampleSetting", buffer) == 0)
+                setting_sampleSetting = (int)value;
+            else if (strcmp("setting_sampleSetting2", buffer) == 0)
+                setting_sampleSetting2 = (bool)value;
         }
         fclose(config);
     }

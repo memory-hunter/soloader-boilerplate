@@ -15,16 +15,16 @@
 
 #define SC_INLINE static inline __attribute__((always_inline))
 
-#define BIONIC_O_WRONLY                                          01
-#define BIONIC_O_RDWR                                            02
-#define BIONIC_O_CREAT                                         0100
-#define BIONIC_O_EXCL                                          0200
-#define BIONIC_O_TRUNC                                        01000
-#define BIONIC_O_APPEND                                       02000
-#define BIONIC_O_NONBLOCK                                     04000
-#define BIONIC_O_DIRECTORY                                 00200000
-#define BIONIC__O_TMPFILE                                 020000000
-#define BIONIC_O_TMPFILE   (BIONIC__O_TMPFILE | BIONIC_O_DIRECTORY)
+#define BIONIC_O_WRONLY 01
+#define BIONIC_O_RDWR 02
+#define BIONIC_O_CREAT 0100
+#define BIONIC_O_EXCL 0200
+#define BIONIC_O_TRUNC 01000
+#define BIONIC_O_APPEND 02000
+#define BIONIC_O_NONBLOCK 04000
+#define BIONIC_O_DIRECTORY 00200000
+#define BIONIC__O_TMPFILE 020000000
+#define BIONIC_O_TMPFILE (BIONIC__O_TMPFILE | BIONIC_O_DIRECTORY)
 
 /**
  * Convert bionic (Android) `open()` flags to newlib (Vita) flags
@@ -63,8 +63,8 @@ SC_INLINE int oflags_bionic_to_newlib(int flags) {
  *         Must be freed by the caller.
  */
 SC_INLINE
-dirent64_bionic * dirent_newlib_to_bionic(const struct dirent* dirent_newlib) {
-    dirent64_bionic * ret = malloc(sizeof(dirent64_bionic));
+dirent64_bionic *dirent_newlib_to_bionic(const struct dirent *dirent_newlib) {
+    dirent64_bionic *ret = malloc(sizeof(dirent64_bionic));
     strncpy(ret->d_name, dirent_newlib->d_name, sizeof(ret->d_name));
     ret->d_off = 0;
     ret->d_reclen = 0;
@@ -78,7 +78,7 @@ dirent64_bionic * dirent_newlib_to_bionic(const struct dirent* dirent_newlib) {
  * @param[out] dst Pointer to a bionic-format stat struct
  */
 SC_INLINE
-void stat_newlib_to_bionic(const struct stat * src, stat64_bionic * dst) {
+void stat_newlib_to_bionic(const struct stat *src, stat64_bionic *dst) {
     dst->st_dev = src->st_dev;
     dst->__st_ino = src->st_ino;
     dst->st_ino = src->st_ino;

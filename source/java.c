@@ -4,7 +4,7 @@
 
 /*
  * JNI Methods
-*/
+ */
 
 NameToMethodID nameToMethodId[] = {};
 
@@ -21,7 +21,7 @@ MethodsVoid methodsVoid[] = {};
 
 /*
  * JNI Fields
-*/
+ */
 
 // System-wide constant that applications sometimes request
 // https://developer.android.com/reference/android/content/Context.html#WINDOW_SERVICE
@@ -33,8 +33,8 @@ char WINDOW_SERVICE[] = "window";
 const int SDK_INT = 19; // Android 4.4 / KitKat
 
 NameToFieldID nameToFieldId[] = {
-		{ 0, "WINDOW_SERVICE", FIELD_TYPE_OBJECT }, 
-		{ 1, "SDK_INT", FIELD_TYPE_INT },
+    { 0, "WINDOW_SERVICE", FIELD_TYPE_OBJECT },
+    { 1, "SDK_INT", FIELD_TYPE_INT },
 };
 
 FieldsBoolean fieldsBoolean[] = {};
@@ -43,10 +43,10 @@ FieldsChar fieldsChar[] = {};
 FieldsDouble fieldsDouble[] = {};
 FieldsFloat fieldsFloat[] = {};
 FieldsInt fieldsInt[] = {
-		{ 1, SDK_INT },
+    { 1, SDK_INT },
 };
 FieldsObject fieldsObject[] = {
-		{ 0, WINDOW_SERVICE },
+    { 0, WINDOW_SERVICE },
 };
 FieldsLong fieldsLong[] = {};
 FieldsShort fieldsShort[] = {};

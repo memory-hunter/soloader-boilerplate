@@ -20,7 +20,6 @@ int sceLibcHeapSize = 4 * 1024 * 1024;
 
 so_module so_mod;
 
-
 int main() {
     soloader_init_all();
 
@@ -41,7 +40,7 @@ int main() {
     ANativeActivity *activity = malloc(sizeof(ANativeActivity));
     activity->callbacks = malloc(sizeof(ANativeActivityCallbacks));
     activity->env = &jni; // from FalsoJNI
-    activity->vm = &jvm;  // from FalsoJNI
+    activity->vm = &jvm; // from FalsoJNI
     activity->clazz = (jclass)0x42424242;
     activity->internalDataPath = DATA_PATH "assets/";
     activity->externalDataPath = DATA_PATH "assets/";

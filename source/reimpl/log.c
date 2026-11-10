@@ -12,34 +12,33 @@
 #include <psp2/kernel/clib.h>
 #include <stdlib.h>
 
-#define print_common \
-    switch (prio) { \
-        case ANDROID_LOG_INFO: \
-            l_info("[ALOG][%s] %s", tag, text); \
-            break; \
-        case ANDROID_LOG_WARN: \
-            l_warn("[ALOG][%s] %s", tag, text); \
-            break; \
-        case ANDROID_LOG_ERROR: \
-        case ANDROID_LOG_FATAL: \
-            l_error("[ALOG][%s] %s", tag, text); \
-            break; \
-        case ANDROID_LOG_UNKNOWN: \
-        case ANDROID_LOG_DEFAULT: \
-        case ANDROID_LOG_VERBOSE: \
-        case ANDROID_LOG_DEBUG: \
-        case ANDROID_LOG_SILENT: \
-        default: \
-            l_debug("[ALOG][%s] %s", tag, text); \
-            break; \
+#define print_common                                                                                                   \
+    switch (prio) {                                                                                                    \
+        case ANDROID_LOG_INFO:                                                                                         \
+            l_info("[ALOG][%s] %s", tag, text);                                                                        \
+            break;                                                                                                     \
+        case ANDROID_LOG_WARN:                                                                                         \
+            l_warn("[ALOG][%s] %s", tag, text);                                                                        \
+            break;                                                                                                     \
+        case ANDROID_LOG_ERROR:                                                                                        \
+        case ANDROID_LOG_FATAL:                                                                                        \
+            l_error("[ALOG][%s] %s", tag, text);                                                                       \
+            break;                                                                                                     \
+        case ANDROID_LOG_UNKNOWN:                                                                                      \
+        case ANDROID_LOG_DEFAULT:                                                                                      \
+        case ANDROID_LOG_VERBOSE:                                                                                      \
+        case ANDROID_LOG_DEBUG:                                                                                        \
+        case ANDROID_LOG_SILENT:                                                                                       \
+        default:                                                                                                       \
+            l_debug("[ALOG][%s] %s", tag, text);                                                                       \
+            break;                                                                                                     \
     }
 
-int __android_log_write(int prio, const char* tag, const char* text) {
-    print_common
-    return 0;
+int __android_log_write(int prio, const char *tag, const char *text) {
+    print_common return 0;
 }
 
-int __android_log_print(int prio, const char* tag, const char* fmt, ...) {
+int __android_log_print(int prio, const char *tag, const char *fmt, ...) {
     va_list list;
     char text[1024];
 
@@ -49,20 +48,20 @@ int __android_log_print(int prio, const char* tag, const char* fmt, ...) {
 
     print_common
 
-    return 0;
+        return 0;
 }
 
-int __android_log_vprint(int prio, const char* tag, const char* fmt, va_list ap) {
+int __android_log_vprint(int prio, const char *tag, const char *fmt, va_list ap) {
     char text[1024];
 
     sceClibVsnprintf(text, sizeof(text), fmt, ap);
 
     print_common
 
-    return 0;
+        return 0;
 }
 
-void __android_log_assert(const char* cond, const char* tag, const char* fmt, ...) {
+void __android_log_assert(const char *cond, const char *tag, const char *fmt, ...) {
     if (fmt) {
         va_list list;
         char text[1024];

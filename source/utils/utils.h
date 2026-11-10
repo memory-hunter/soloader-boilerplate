@@ -44,7 +44,7 @@ uint64_t current_timestamp_ms();
  *
  * @return `true` on success, `false` otherwise.
  */
-bool file_copy(const char * path, const char * destination);
+bool file_copy(const char *path, const char *destination);
 
 /**
  * Check whether a file exists.
@@ -53,7 +53,7 @@ bool file_copy(const char * path, const char * destination);
  *
  * @return `true` if file exists, `false` otherwise.
  */
-bool file_exists(const char * path);
+bool file_exists(const char *path);
 
 /**
  * Load file contents into memory.
@@ -65,7 +65,7 @@ bool file_exists(const char * path);
  *
  * @return `true` on success, `false` otherwise.
  */
-bool file_load(const char * path, uint8_t ** buffer, size_t * size);
+bool file_load(const char *path, uint8_t **buffer, size_t *size);
 
 /**
  * Create directories leading to file.
@@ -75,7 +75,7 @@ bool file_load(const char * path, uint8_t ** buffer, size_t * size);
  *
  * @return `true` on success, `false` otherwise.
  */
-bool file_mkpath(const char * path, mode_t mode);
+bool file_mkpath(const char *path, mode_t mode);
 
 /**
  * Save buffer contents into a file.
@@ -86,7 +86,7 @@ bool file_mkpath(const char * path, mode_t mode);
  *
  * @return `true` on success, `false` otherwise.
  */
-bool file_save(const char * path, const uint8_t * buffer, size_t size);
+bool file_save(const char *path, const uint8_t *buffer, size_t size);
 
 /**
  * Get the size of a file in bytes
@@ -95,7 +95,7 @@ bool file_save(const char * path, const uint8_t * buffer, size_t size);
  *
  * @return File size in bytes or (size_t)-1 in case of a failure.
  */
-size_t file_size(const char * path);
+size_t file_size(const char *path);
 
 /**
  * Get SHA1 hash of file contents.
@@ -105,7 +105,7 @@ size_t file_size(const char * path);
  * @return 40-char long null-terminated string containing SHA1 hash. Can be
  *         NULL in case of an error. Must be freed by the caller.
  */
-char * file_sha1sum(const char * path);
+char *file_sha1sum(const char *path);
 
 /**
  * Check whether specified path is a directory.
@@ -114,7 +114,7 @@ char * file_sha1sum(const char * path);
  *
  * @return `true` if path is a directory, `false` otherwise.
  */
-bool is_dir(const char * path);
+bool is_dir(const char *path);
 
 /**
  * Check whether system module is loaded.
@@ -123,7 +123,7 @@ bool is_dir(const char * path);
  *
  * @return `true` if the module is loaded, `false` otherwise.
  */
-bool module_loaded(const char * name);
+bool module_loaded(const char *name);
 
 /**
  * Do nothing, return 0. Useful for stubbing.
@@ -151,7 +151,7 @@ int retminus1(void);
  * @param[in]  needle      Substring to look for.
  * @param[in]  replacement Replacement.
  */
-void str_replace(char ** str, const char * needle, const char * replacement);
+void str_replace(char **str, const char *needle, const char *replacement);
 
 /**
  * Remove all occurrences of a substring from a string.
@@ -159,7 +159,7 @@ void str_replace(char ** str, const char * needle, const char * replacement);
  * @param[out] str    Target string.
  * @param[in]  needle Substring to look for.
  */
-void str_remove(char * str, const char * needle);
+void str_remove(char *str, const char *needle);
 
 /**
  * Check whether a string starts with a substring.
@@ -169,7 +169,7 @@ void str_remove(char * str, const char * needle);
  *
  * @return `true` if the string starts with the substring, `false` otherwise.
  */
-bool str_starts_with(const char * str, const char * prefix);
+bool str_starts_with(const char *str, const char *prefix);
 
 /**
  * Check whether a string ends with a substring.
@@ -179,7 +179,7 @@ bool str_starts_with(const char * str, const char * prefix);
  *
  * @return `true` if the string ends with the substring, `false` otherwise.
  */
-bool str_ends_with(const char * str, const char * suffix);
+bool str_ends_with(const char *str, const char *suffix);
 
 /**
  * Get SHA1 hash of a string or byte array.
@@ -191,7 +191,7 @@ bool str_ends_with(const char * str, const char * suffix);
  * @return 40-char long null-terminated string containing SHA1 hash. Can be
  *         NULL in case of an error. Must be freed by the caller.
  */
-char * str_sha1sum(const char * str, size_t size);
+char *str_sha1sum(const char *str, size_t size);
 
 #ifdef __cplusplus
 };

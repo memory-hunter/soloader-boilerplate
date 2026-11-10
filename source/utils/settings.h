@@ -19,7 +19,7 @@
 extern "C" {
 #endif
 
-extern int  setting_sampleSetting;
+extern int setting_sampleSetting;
 extern bool setting_sampleSetting2;
 
 void settings_load();
