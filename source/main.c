@@ -1,5 +1,6 @@
 #include "utils/init.h"
 #include "utils/glutil.h"
+#include "utils/logger.h"
 
 #include <psp2/kernel/threadmgr.h>
 
@@ -24,7 +25,11 @@ int main() {
     soloader_init_all();
 
     int (*JNI_OnLoad)(void *jvm) = (void *)so_symbol(&so_mod, "JNI_OnLoad");
-    JNI_OnLoad(&jvm);
+    if (JNI_OnLoad) {
+        JNI_OnLoad(&jvm);
+    } else {
+        l_warn("JNI_OnLoad was not found in the .so. Check naming of the function.");
+    }
 
     gl_init();
 
