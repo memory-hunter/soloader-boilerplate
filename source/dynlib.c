@@ -448,6 +448,7 @@ so_default_dynlib default_dynlib[] = {
     { "getservbyname", (uintptr_t)&getservbyname },
     { "getsockname", (uintptr_t)&getsockname },
     { "getsockopt", (uintptr_t)&getsockopt },
+    { "inet_addr", (uintptr_t)&inet_addr },
     { "inet_aton", (uintptr_t)&inet_aton },
     { "inet_pton", (uintptr_t)&inet_pton },
     { "inet_ntoa", (uintptr_t)&inet_ntoa },
@@ -569,7 +570,7 @@ so_default_dynlib default_dynlib[] = {
     { "ftruncate", (uintptr_t)&ftruncate },
     { "getcwd", (uintptr_t)&getcwd },
     { "lseek", (uintptr_t)&lseek },
-    { "lseek64", (uintptr_t)&ret0 }, // TODO: implement or stub with warning
+    { "lseek64", (uintptr_t)&lseek64_soloader },
     { "lstat", (uintptr_t)&lstat },
     { "mkdir", (uintptr_t)&mkdir },
 #ifndef NDK_PORT
