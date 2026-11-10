@@ -13,3 +13,4 @@
 [submodule "lib/vitagl"]
 	path = lib/vitagl
 	url = https://github.com/Rinnegatamante/vitaGL
+	branch = master
