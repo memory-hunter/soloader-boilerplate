@@ -116,6 +116,7 @@ extern void *__aeabi_unwind_cpp_pr1;
 extern void *__cxa_atexit;
 extern void *__cxa_call_unexpected;
 extern void *__cxa_finalize;
+extern void *__cxa_guard_abort;
 extern void *__cxa_guard_acquire;
 extern void *__cxa_guard_release;
 extern void *__cxa_pure_virtual;
@@ -130,6 +131,13 @@ extern const short *BIONIC_tolower_tab_;
 extern const short *BIONIC_toupper_tab_;
 
 static FILE __sF_fake[3];
+
+extern so_module so_mod;
+
+unsigned long *__gnu_Unwind_Find_exidx(unsigned long *PC, int *pcount) {
+    *pcount = so_mod.exidx_size / 8;
+    return (unsigned long *)so_mod.exidx_base;
+}
 
 void *dlsym_soloader(void *handle, const char *symbol);
 
@@ -196,13 +204,14 @@ so_default_dynlib default_dynlib[] = {
     { "__cxa_end_catch", (uintptr_t)&__cxa_end_catch },
     { "__cxa_finalize", (uintptr_t)&__cxa_finalize },
     { "__cxa_free_exception", (uintptr_t)&__cxa_free_exception },
+    { "__cxa_guard_abort", (uintptr_t)&__cxa_guard_abort },
     { "__cxa_guard_acquire", (uintptr_t)&__cxa_guard_acquire },
     { "__cxa_guard_release", (uintptr_t)&__cxa_guard_release },
     { "__cxa_pure_virtual", (uintptr_t)&__cxa_pure_virtual },
     { "__cxa_rethrow", (uintptr_t)&__cxa_rethrow },
     { "__cxa_throw", (uintptr_t)&__cxa_throw },
     { "__cxa_type_match", (uintptr_t)&ret0 },
-    { "__gnu_Unwind_Find_exidx", (uintptr_t)&ret0 },
+    { "__gnu_Unwind_Find_exidx", (uintptr_t)&__gnu_Unwind_Find_exidx },
     { "__gnu_ldivmod_helper", (uintptr_t)&__gnu_ldivmod_helper },
     { "__gnu_unwind_frame", (uintptr_t)&__gnu_unwind_frame },
     { "__google_potentially_blocking_region_begin", (uintptr_t)&ret0 },
@@ -217,7 +226,7 @@ so_default_dynlib default_dynlib[] = {
     { "__swbuf", (uintptr_t)&__swbuf },
     { "__system_property_get", (uintptr_t)&__system_property_get_soloader },
     { "__assert2", (uintptr_t)&ret0 }, // TODO: stub/impl
-    { "dl_unwind_find_exidx", (uintptr_t)&ret0 }, // TODO: stub/impl
+    { "dl_unwind_find_exidx", (uintptr_t)&__gnu_Unwind_Find_exidx },
 
     // ctype
     { "_ctype_", (uintptr_t)&BIONIC_ctype_ },
