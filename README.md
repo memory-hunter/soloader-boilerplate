@@ -21,7 +21,7 @@ The core idea is similar to that of [WINE](https://www.winehq.org/): instead of 
 In practice this means:
 - Loading the `.so` into memory, applying relocations, and resolving its imports against Vita-native implementations (via [so_util](lib/so_util))
 - Providing a fake JVM/JNI environment so the game can do its Java-side initialization (via [FalsoJNI](lib/falso_jni))
-- Reimplementing Android-specific interfaces (mostly NDK-adjacent things) in ways that work on the Vita
+- Reimplementing Android-specific interfaces (mostly NDK-adjacent things) in ways that work on the Vita. Already done via [FalsoNDK](lib/falso_ndk)
 
 ### Projects built on top of Solobop
 
@@ -77,6 +77,38 @@ set(SO_PATH "${DATA_PATH}libmain.so" CACHE STRING "Path to .so")
 
 `DATA_PATH` is where users place the game's data files; `SO_PATH` is the Android `.so` within that folder.
 
+There could be cases where there is more than 1 `.so` needing to be added. To properly integrate the second `.so`:
+- Copy the `SO_PATH` line, rename it, for example like:
+    ```cmake
+    set(SO_PATH2 "${DATA_PATH}libother.so" CACHE STRING "Path to .so")
+    ```
+- Add the second definition in `add_definitions`
+    ```cmake
+    add_definitions(-DDATA_PATH="${DATA_PATH}" -DSO_PATH="${SO_PATH}" -DSO_PATH2="${SO_PATH2}")
+    ```
+- Add the second `.so` in your [main source code](source/main.c)
+    ```c
+    so_module so_mod;
+    so_module so_mod2;
+    ```
+- In your [initialization source code](source/utils/init.c):
+    - Import the other `.so`:
+        ```c
+        extern so_module so_mod2;
+        ```
+    - Repeat the file checking for the other `.so` as it is for the main `.so`.
+    - For loading the `.so`, choose a different address:
+        ```c
+         if (so_file_load(&so_mod2, SO_PATH2, LOAD_ADDRESS + 0x01000000) < 0)
+        ```
+    - Fully initialize the other `.so` first after loading the settings:
+        ```c
+        so_relocate(&so_mod2);
+        resolve_imports(&so_mod2);
+        so_flush_caches(&so_mod2);
+        so_initialize(&so_mod2);
+        ```
+
 There are also a few toggleable options:
 
 | Option | Default | Description |
@@ -84,7 +116,7 @@ There are also a few toggleable options:
 | `NDK_PORT` | OFF | Turn this on if the game uses Android NDK (you can check this if the `.so` has `ANativeActivity_onCreate` in its symbols). |
 | `USE_SCELIBC_IO` | ON | Use SceLibcBridge for IO. Recommended for most ports. |
 | `SHADER_FORMAT` | GLSL | Shader format: `GLSL`, `CG`, or `GXP`. |
-| `DUMP_COMPILED_SHADERS` | ON | Cache compiled shaders on disk (GLSL/CG only). |
+| `DUMP_COMPILED_SHADERS` | OFF | Cache compiled shaders on disk (GLSL/CG only). |
 
 ### 3. Fill in `dynlib.c`
 
